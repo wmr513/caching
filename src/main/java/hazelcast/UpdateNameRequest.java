@@ -21,3 +21,4 @@ public class UpdateNameRequest {
 		AMQPCommon.close(channel);
 	}
 }
+
