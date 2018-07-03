@@ -48,5 +48,4 @@ public class CustomerInfoService {
 			AMQPCommon.close(channel);
 		}
 	}	
-
 }
