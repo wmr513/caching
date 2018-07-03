@@ -25,5 +25,4 @@ public class DataWriter {
 			AMQPCommon.close(channel);
 		}
 	}	
-
 }
