@@ -36,7 +36,7 @@ public class CustomerInfoService {
 
 		CacheConfiguration cfg = new CacheConfiguration("namesConfig");
 		cfg.setCacheMode(CacheMode.REPLICATED);
-		cfg.setBackups(4); // Not sure this 
+		//cfg.setBackups(4); // This is only used in PARTITIONED Cache, not REPLICATED 
 
 		IgniteConfiguration ic = new IgniteConfiguration();
 	    ic.setClientMode(false);
