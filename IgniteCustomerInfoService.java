@@ -36,16 +36,17 @@ public class CustomerInfoService {
 
 		CacheConfiguration cfg = new CacheConfiguration("namesConfig");
 		cfg.setCacheMode(CacheMode.REPLICATED);
-		cfg.setBackups(4);
+		cfg.setBackups(4); // Not sure this 
 
 		IgniteConfiguration ic = new IgniteConfiguration();
 	    ic.setClientMode(false);
 	    ic.setDiscoverySpi(spi);
-	    ic.setCacheConfiguration(cfg);		
+	    //ic.setCacheConfiguration(cfg);	// This creates the cache named "namesConfig" with the proper configuration, don't need this	
   
 		Ignite ignite = Ignition.start(ic);
-	    IgniteCache<String, String> cache = ignite.getOrCreateCache("names");
-				
+	    //IgniteCache<String, String> cache = ignite.getOrCreateCache("names"); // This creates a new cache named "names" with default setting (CacheMode.PARTITIONED)
+	    IgniteCache<String, String> cache = ignite.getOrCreateCache(cfg); // This gets the proper cache, and will work as Hazelcast 
+		
 		if (args.length > 0 && args[0].equalsIgnoreCase("load")) {
 	        cache.put("1", "Mark");
 		}
