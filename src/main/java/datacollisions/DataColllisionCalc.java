@@ -22,7 +22,6 @@ public class DataColllisionCalc {
 	    		           "(source: https://www.shadowbasesoftware.com/wp-content/uploads/2016/08/Resolving-Data-Collisions.pdf)");
 	    System.out.println();
 	    
-		@SuppressWarnings("resource")
 		java.util.Scanner input = new java.util.Scanner(System.in);
 	    System.out.print("Number of service instances: ");
 	    Long instances = input.nextLong();
@@ -35,6 +34,7 @@ public class DataColllisionCalc {
 	    
 	    System.out.print("Replication latency (milliseconds): ");
 	    double latency = input.nextDouble() / 1000;
+	    input.close();
 
 	    double collisions = instances * (Math.pow(updateRate,2)/cacheSize) * latency;
 	    
