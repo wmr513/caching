@@ -1,9 +1,8 @@
 package hazelcast;
 
-import java.util.Map;
-
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.ReplicatedMap;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
 
@@ -16,14 +15,14 @@ public class CustomerInfoService {
 		QueueingConsumer consumer = new QueueingConsumer(channel);
 		channel.basicConsume("name.q", true, consumer);
         HazelcastInstance hz = Hazelcast.newHazelcastInstance();
-        Map<String, String> cache = hz.getReplicatedMap("names");
+        ReplicatedMap<Object, Object> cache = hz.getReplicatedMap("names");
 
 		if (args.length > 0 && args[0].equalsIgnoreCase("load")) {
 	        cache.put("1", "Mark");
 		}
 		
 		System.out.println("");
-        System.out.println("name in cache: " + cache.get("1"));
+        System.out.println("(H) name in cache: " + cache.get("1"));
 
 		try {
 			while (true) {
@@ -41,11 +40,11 @@ public class CustomerInfoService {
 					String routingKey = "datapump.q";
 					channel.basicPublish("", routingKey, null, message);
 				}
-		        System.out.println("name in cache: " + cache.get("1"));
+		        System.out.println("(H) name in cache: " + cache.get("1"));
 			}			
 		} finally {
 	        hz.shutdown();
 			AMQPCommon.close(channel);
 		}
-	}	
+	}		
 }

@@ -1,4 +1,4 @@
-package hazelcast;
+package ignite;
 
 import com.rabbitmq.client.Channel;
 import common.AMQPCommon;

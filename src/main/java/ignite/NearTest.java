@@ -13,7 +13,10 @@ public class NearTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void main(String[] args) throws Exception {
 		
-		int maxNearSize = new Integer(args[0]).intValue();
+		java.util.Scanner input = new java.util.Scanner(System.in);
+		System.out.print("Near cache size (1-5): ");
+	    int maxNearSize = input.nextInt();
+
 		System.out.println("Connecting to Apache Ignite server...");
 		CacheConfiguration serverCfg = new CacheConfiguration("names");
 		serverCfg.setStatisticsEnabled(true);
@@ -24,7 +27,9 @@ public class NearTest {
 		Ignite ignite = Ignition.start(ic);
 		IgniteCache<String, String> cache = ignite.getOrCreateCache(serverCfg, nearCfg);
 
+		System.out.println("\n\n\n\n");
 		System.out.println("Connected");
+		
 		System.out.println("near cache max size: " + maxNearSize);
 		System.out.println("near size: " + cache.localMetrics().getHeapEntriesCount());
 		System.out.println("evictions: " + cache.localMetrics().getCacheEvictions());
@@ -48,14 +53,18 @@ public class NearTest {
 
 		boolean localCacheHit = true;
 		long misses = cache.localMetrics().getCacheMisses();
-		String[] queries = {"3","4","5","1","2","3","3"};
-		for (String s : queries) {
-			System.out.print("getting name for " + s + ": " + cache.get(s));
+
+		while (true) {
+		    System.out.print("Customer Id: ");
+		    String custid = input.next();
+		    if (custid.equals("0")) break;
+			System.out.print("getting name for " + custid + ": " + cache.get(custid));
 			localCacheHit = (cache.localMetrics().getCacheMisses() == misses);
 			misses = cache.localMetrics().getCacheMisses();
 			System.out.println(", local cache hit = " + localCacheHit);
 		}
 
+		input.close();
 		ignite.close();
 	}
 }

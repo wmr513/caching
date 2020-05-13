@@ -10,8 +10,8 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 public class SingleTest {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws Exception {
+        
 		System.out.println("Starting Apache Ignite...");
 		CacheConfiguration cfg = new CacheConfiguration("names");
 		cfg.setCacheMode(CacheMode.LOCAL);
@@ -19,11 +19,17 @@ public class SingleTest {
 		ic.setClientMode(false);
 		Ignite ignite = Ignition.start(ic);
 		IgniteCache<String, String> cache = ignite.getOrCreateCache(cfg);
+		System.out.println("\n\n\n\n");
 		System.out.println("Apache Ignite started");
 		System.out.println();
 
-		String customerId = getCustomerIdFromRequest();
-		String newName = getNameFromRequest();
+		java.util.Scanner input = new java.util.Scanner(System.in);
+		System.out.print("Enter customer id: ");
+		String customerId = input.nextLine();
+		System.out.print("Hello Mark. Enter new name: ");
+		String newName = input.nextLine();
+		System.out.println();
+		input.close();
 
 		String currentName = cache.get(customerId);
 		System.out.println("Name in cache for customerId " + customerId + ": " + currentName);
@@ -33,24 +39,17 @@ public class SingleTest {
 		
 		currentName = cache.get(customerId);
 		System.out.println("Name in cache for customerId " + customerId + ": " + currentName);
+		System.out.println("\n\n");
 		ignite.close();
 	}
 	
-	public static String getCustomerIdFromRequest() {
-	    String customerId = "1";
-	    System.out.println("Receiving customerId: 1");
-		return customerId;
-	}
-
-	public static String getNameFromRequest() {
-	    String name = "William";
-	    System.out.println("Receiving name: William");
-		return name;
-	}
-	
-	public static String getNameFromDatabase(String customerId) {
+	public static String getNameFromDatabase(String customerId) throws Exception {
 		String name = "Mark";
 		System.out.println("Retrieving current name from database: " + name);
+		Thread.sleep(1000);
+		System.out.println("Name in cache for customerId " + customerId + ": " + name);
+		System.out.println();
+		Thread.sleep(1000);
 		return name;
 	}
 }

@@ -35,13 +35,20 @@ public class WishlistService {
 				QueueingConsumer.Delivery msg = consumer.nextDelivery(1000);
 				if (msg != null) {
 					String productId = new String(msg.getBody());
-					if (!cache.containsKey(productId)) {
-						System.out.println("item does not exist");
-					} else {
-						wishlistItems.add(productId);
+					
+					if (productId.equalsIgnoreCase("show")) {
+						displayCache(cache);
 						displayWishlist(cache);
+					} else {					
+						if (!cache.containsKey(productId)) {
+							System.out.println("item does not exist");
+						} else {
+							wishlistItems.add(productId);
+							displayWishlist(cache);
+						}
 					}
 				}
+
 				if (cache.size() != cacheSize) {
 					displayCache(cache);
 					cacheSize = cache.size();

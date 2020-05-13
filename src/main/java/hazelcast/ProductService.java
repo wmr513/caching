@@ -46,7 +46,7 @@ public class ProductService {
         cache.put("2", "BUMB Cable Bag Travel Organizer");
         cache.put("3", "BatPower ProE Portable Charger");
         cache.put("4", "Tripod Desk Microphone Stand");
-        cache.put("5", "Apple Lightning to 3.5mm Headphone Jack");
+        cache.put("5", "Apple Lightning to 3.5mm Adapter");
         displayCache(cache);
 	}
 	
